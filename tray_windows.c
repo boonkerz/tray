@@ -28,6 +28,10 @@ static LRESULT CALLBACK _tray_wnd_proc(HWND hwnd, UINT msg, WPARAM wparam,
       tray_instance->cb(tray_get_instance());
       return 0;
     }
+    if (lparam == WM_LBUTTONUP) {
+      tray_instance->clicked = tray_instance->tooltip;
+      return 0;
+    }
     if (lparam == WM_LBUTTONUP || lparam == WM_RBUTTONUP) {
       POINT p;
       GetCursorPos(&p);
