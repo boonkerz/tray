@@ -32,9 +32,9 @@ else()
 	endif()
 endif()
 
-add_library(tray SHARED ${SRCS})
+add_library(tray STATIC ${SRCS})
 set_property(TARGET tray PROPERTY C_STANDARD 99)
-target_compile_definitions(tray PRIVATE TRAY_EXPORTS)
+target_include_directories(tray SYSTEM PUBLIC ${CMAKE_CURRENT_SOURCE_DIR})
 set_target_properties(tray PROPERTIES C_VISIBILITY_PRESET hidden)
 
 if(WIN32)
@@ -58,28 +58,4 @@ else()
 endif()
 
 INSTALL(TARGETS tray DESTINATION lib)
-
-IF(NOT WIN32)
-	INSTALL(FILES tray.h DESTINATION include)
-ENDIF()
-
-
-# Tray Example
-add_executable(tray_example ${CMAKE_CURRENT_SOURCE_DIR}/example.c)
-target_link_libraries(tray_example PRIVATE tray)
-add_dependencies(tray_example tray) # Ensure that tray is built before tray_example
-
-if(WIN32)
-	configure_file(${CMAKE_CURRENT_LIST_DIR}/icon.ico ${CMAKE_BINARY_DIR}/icon.ico COPYONLY)
-	configure_file(${CMAKE_CURRENT_LIST_DIR}/icon2.ico ${CMAKE_BINARY_DIR}/icon2.ico COPYONLY)
-else()
-	if(UNIX)
-		if(APPLE)
-			configure_file(${CMAKE_CURRENT_LIST_DIR}/icon.png ${CMAKE_BINARY_DIR}/icon.png COPYONLY)
-			configure_file(${CMAKE_CURRENT_LIST_DIR}/icon2.png ${CMAKE_BINARY_DIR}/icon2.png COPYONLY)
-		else ()
-			configure_file(${CMAKE_CURRENT_LIST_DIR}/icon-24px.png ${CMAKE_BINARY_DIR}/icon-24px.png COPYONLY)
-			configure_file(${CMAKE_CURRENT_LIST_DIR}/icon2-24px.png ${CMAKE_BINARY_DIR}/icon2-24px.png COPYONLY)
-		endif()
-	endif()
-endif ()
+INSTALL(FILES tray.h DESTINATION include)

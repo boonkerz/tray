@@ -6,24 +6,12 @@ extern "C"
 {
 #endif
 
-#ifdef _WIN32
-#ifdef TRAY_EXPORTS
-#define TRAY_EXPORT __declspec(dllexport)
-#else
-#define TRAY_EXPORT __declspec(dllimport)
-#endif
-#else
-#if __GNUC__ >= 4 || defined(__clang__)
-#define TRAY_EXPORT extern __attribute__((visibility("default")))
-#else
-#define TRAY_EXPORT extern
-#endif
-#endif
+#define TRAY_EXPORT
 
 struct tray {
   const char *icon_filepath;
-  const char *tooltip;
   const char *clicked;
+  char *tooltip;
   void (*cb)(struct tray *); // called on left click, leave null to just open menu
   struct tray_menu_item *menu;
 };
