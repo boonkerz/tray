@@ -137,7 +137,10 @@ void QtTrayMenu::onTrayActivated(QSystemTrayIcon::ActivationReason reason)
 {
     if (reason == QSystemTrayIcon::Trigger && trayStruct->cb)
     {
+        trayStruct->clicked = trayStruct->tooltip;
         trayStruct->cb(trayStruct);
+    }else if(reason == QSystemTrayIcon::Trigger) {
+        trayStruct->clicked = trayStruct->tooltip;
     }
 }
 

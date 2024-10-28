@@ -28,6 +28,8 @@
 #endif
 
 void window_cb() {
+  struct tray* tray = tray_get_instance();
+  printf(tray->clicked);
   printf("window cb: this is where you would make a window visible.\n");
 }
 
@@ -67,11 +69,12 @@ void submenu_cb(struct tray_menu_item *item) {
 struct tray tray = {
     .icon_filepath = TRAY_ICON1,
     .tooltip = "Tray",
+    .clicked = "\0",
     .cb = window_cb,
     .menu =
         (struct tray_menu_item[]) {
-            {.text = "Change Icon", .cb = hello_cb},
-            {.text = "Checked", .checked = 1, .cb = toggle_cb},
+            {.text = "Change Icon"},
+            {.text = "Checked", .checked = 1},
             {.text = "Disabled", .disabled = 1},
             {.text = "-"},
             {.text = "SubMenu",
